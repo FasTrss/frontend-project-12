@@ -8,7 +8,6 @@ _____
 
 hexlet-chat is a simplified version of Slack Chat
 
-[deployed on render.com](https://hexlet-chat-huhq.onrender.com)
 
 _____
 
