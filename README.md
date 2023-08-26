@@ -8,7 +8,8 @@ _____
 
 hexlet-chat is a simplified version of Slack Chat
 
-[Hexlet-chat](hexlet-chat-production-aefd.up.railway.app)
+### [Hexlet-chat](https://frontend-project-12-production-934d.up.railway.app/login)
+
 _____
 
 ### Build
