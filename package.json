@@ -11,15 +11,17 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/korchel/frontend-project-12.git"
+    "url": "git+https://github.com/FasTrss/frontend-project-12.git"
   },
   "author": "korchel",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/korchel/frontend-project-12/issues"
+    "url": "https://github.com/FasTrss/frontend-project-12/issues"
   },
-  "homepage": "https://github.com/korchel/frontend-project-12#readme",
+  "homepage": "https://github.com/FasTrss/frontend-project-12#readme",
   "dependencies": {
+    "@fastify/jwt": "^5.0.0",
+    "@fastify/static": "^5.0.0",
     "@hexlet/chat-server": "^1.1.6"
   }
 }
