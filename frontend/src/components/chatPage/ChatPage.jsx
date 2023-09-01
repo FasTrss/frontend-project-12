@@ -28,14 +28,16 @@ const Chat = () => {
     dispatch(fetchData(userData.token));
   }, [dispatch, userData.token]);
 
-  if (loadingError) {
-    if (loadingError.response.status === 401) {
-      logOut();
-      navigate(routes.loginRoute());
-    } else {
-      setHasError(true);
+  useEffect(() => {
+    if (loadingError) {
+      if (loadingError.response.status === 401) {
+        logOut();
+        navigate(routes.loginRoute());
+      } else {
+        setHasError(true);
+      }
     }
-  }
+  }, [loadingError, logOut, navigate]);
 
   const showModal = (type, id = null) => {
     dispatch(openModal({ type, id }));

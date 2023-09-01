@@ -25,14 +25,14 @@ const MessagesInput = ({ currentChannelId }) => {
           username: userData.username,
         };
         await emitSendMessage(newMessage);
+        actions.resetForm();
       }
-      actions.resetForm();
     },
   });
 
   useEffect(() => {
     inputRef.current.focus();
-  }, [formik]);
+  }, []);
 
   return (
     <div className="mt-auto px-5 py-3">

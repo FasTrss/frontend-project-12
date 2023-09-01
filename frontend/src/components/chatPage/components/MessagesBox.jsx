@@ -4,7 +4,7 @@ import { animateScroll } from 'react-scroll';
 const MessagesBox = ({ messages }) => {
   useEffect(() => {
     animateScroll.scrollToBottom({ containerId: 'messages-box', duration: 0 });
-  });
+  }, [messages]);
 
   return (
     <div id="messages-box" className="chat-messages overflow-auto px-5">

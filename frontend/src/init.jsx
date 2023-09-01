@@ -19,7 +19,7 @@ const init = async () => {
     resources,
     fallbackLng: 'ru',
   };
-  i18n
+  await i18n
     .use(initReactI18next)
     .init(options);
 

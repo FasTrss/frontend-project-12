@@ -1,43 +1,50 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useCallback, useContext } from 'react';
 
 export const ChatWSContext = createContext();
 
 const ChatWSProvider = ({ webSocket, children }) => {
-  const emitSendMessage = (message) => new Promise((resolve, reject) => {
+  const emitSendMessage = useCallback((message) => new Promise((resolve, reject) => {
     webSocket.timeout(1000).emit('newMessage', message, (error, response) => {
       if (response?.status === 'ok') {
-        resolve(response.status);
+        resolve(response);
       }
-      reject(error);
+      else {
+        reject(error);
+        }
     });
-  });
+  }), [webSocket]);
 
-  const emitAddChannel = (channel) => new Promise((resolve, reject) => {
+  const emitAddChannel = useCallback((channel) => new Promise((resolve, reject) => {
     webSocket.timeout(1000).emit('newChannel', channel, (error, response) => {
       if (response?.status === 'ok') {
-        resolve(response.data);
+        resolve(response);
       }
-      reject(error);
+      else {
+        reject(error);
+        }
     });
-  });
+  }), [webSocket]);
 
-  const emitRemoveChannel = (id) => new Promise((resolve, reject) => {
+  const emitRemoveChannel = useCallback((id) => new Promise((resolve, reject) => {
     webSocket.timeout(1000).emit('removeChannel', { id }, (error, response) => {
       if (response?.status === 'ok') {
-        resolve(response.status);
-      }
+        resolve(response);
+      } else {
       reject(error);
+      }
     });
-  });
+  }), [webSocket]);
 
-  const emitRenameChannel = (name, id) => new Promise((resolve, reject) => {
+  const emitRenameChannel = useCallback((name, id) => new Promise((resolve, reject) => {
     webSocket.timeout(1000).emit('renameChannel', { name, id }, (error, response) => {
       if (response?.status === 'ok') {
-        resolve(response.status);
+        resolve(response);
       }
-      reject(error);
+      else {
+        reject(error);
+        }
     });
-  });
+  }), [webSocket]);
 
   return (
     <ChatWSContext.Provider value={{

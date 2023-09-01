@@ -38,12 +38,12 @@ const AddChannel = ({ hide }) => {
           dispatch(addChannel(channel));
           dispatch(setCurrentChannelId(channel.id));
           toast.success(t('chat.modals.channelCreated'));
+          hide();
         })
         .catch((error) => {
           console.log(error);
           toast.warning(t('chat.modals.connectionError'));
         });
-      hide();
     },
     validationSchema: getValidationSchema(channels),
   });
