@@ -1,4 +1,9 @@
-import React, { createContext, useCallback, useContext } from 'react';
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useMemo,
+} from 'react';
 
 export const ChatWSContext = createContext();
 
@@ -43,11 +48,15 @@ const ChatWSProvider = ({ webSocket, children }) => {
     });
   }), [webSocket]);
 
+  const contextValue = useMemo(() => ({
+    emitSendMessage,
+    emitAddChannel,
+    emitRemoveChannel,
+    emitRenameChannel,
+  }), [emitSendMessage, emitAddChannel, emitRemoveChannel, emitRenameChannel]);
+
   return (
-    <ChatWSContext.Provider value={{
-      emitSendMessage, emitAddChannel, emitRemoveChannel, emitRenameChannel,
-    }}
-    >
+    <ChatWSContext.Provider value={contextValue}>
       {children}
     </ChatWSContext.Provider>
   );

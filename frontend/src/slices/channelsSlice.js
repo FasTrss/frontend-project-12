@@ -1,3 +1,4 @@
+/* eslint-disable functional/no-expression-statements */
 /* eslint-disable no-param-reassign */
 import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 import fetchData from '../requests/fetchData.js';
@@ -28,8 +29,8 @@ const channelsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchData.pending, (state) => {
-      state.loadingState = 'loading';
-      state.error = null;
+        state.loadingState = 'loading';
+        state.error = null;
       })
       .addCase(fetchData.fulfilled, (state, action) => {
         channelsAdapter.addMany(state, action.payload.channels);
@@ -41,16 +42,15 @@ const channelsSlice = createSlice({
         state.loadingState = 'failed';
         state.loadingError = action.error.message;
       });
-      
   },
 });
 
 export const {
-  addChannel, 
-  addChannels, 
+  addChannel,
+  addChannels,
   updateChannel,
-  removeChannel, 
-  setCurrentChannelId, 
+  removeChannel,
+  setCurrentChannelId,
   setDefaultChannel,
 } = channelsSlice.actions;
 

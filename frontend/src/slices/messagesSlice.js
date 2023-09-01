@@ -3,11 +3,12 @@ import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolk
 
 import { removeChannel } from './channelsSlice';
 import fetchData from '../requests/fetchData.js';
+
 const messagesAdapter = createEntityAdapter();
 
 const initialState = messagesAdapter.getInitialState({
   loadingError: null,
-  loadingState: 'idle'
+  loadingState: 'idle',
 });
 
 const messagesSlice = createSlice({
