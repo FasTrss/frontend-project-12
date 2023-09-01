@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import { useChatWS } from '../../contexts/chatWSContext/ChatWSContext.jsx';
 import { getChannelsNames, setCurrentChannelId, addChannel } from '../../slices/channelsSlice.js';
 
-const AddChannel = ({ hide }) => {
+const AddChannel = ({ show, hide }) => {
   const inputRef = useRef(null);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -49,8 +49,10 @@ const AddChannel = ({ hide }) => {
   });
 
   useEffect(() => {
-    inputRef.current.focus();
-  }, []);
+    if (show) {
+      inputRef.current.focus();
+    }
+  }, [show]);
 
   return (
     <>
