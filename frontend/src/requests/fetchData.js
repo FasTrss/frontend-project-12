@@ -12,8 +12,8 @@ const fetchData = createAsyncThunk(
     },
   );
 
-export const getLoadingState = (state) => state.loadingReducer.loadingState;
-export const getLoadingError = (state) => state.loadingReducer.loadingError;
+export const getLoadingState = (state) => state.loadingState;
+export const getLoadingError = (state) => state.loadingError;
 
 
 export default fetchData;
