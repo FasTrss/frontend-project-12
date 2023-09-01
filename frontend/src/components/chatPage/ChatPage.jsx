@@ -4,9 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { Container, Row, Spinner } from 'react-bootstrap';
 
 import { useAuth } from '../../contexts/authContext/AuthContext.jsx';
-import {
-  fetchData, getLoadingError, getloadingState,
-} from '../../slices/loadingSlice.js';
+import fetchData, { getLoadingError, getloadingState } from '../../requests/fetchData.js';
 import Channels from './components/Channels.jsx';
 import Messages from './components/Messages.jsx';
 import Modal from '../modals/Modal.jsx';

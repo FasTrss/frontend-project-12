@@ -1,11 +1,13 @@
 /* eslint-disable no-param-reassign */
 import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
-import { fetchData } from './loadingSlice.js';
+import fetchData from '../requests/fetchData.js';
 
 const channelsAdapter = createEntityAdapter();
 
 const initialState = channelsAdapter.getInitialState({
   currentChannelId: 1,
+  loadingState: 'idle',
+  loadingError: null,
 });
 
 const channelsSlice = createSlice({
@@ -25,19 +27,37 @@ const channelsSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(fetchData.pending, (state) => {
+      state.loadingState = 'loading';
+      state.error = null;
+      })
       .addCase(fetchData.fulfilled, (state, action) => {
         channelsAdapter.addMany(state, action.payload.channels);
         state.currentChannelId = action.payload.currentChannelId;
+        state.loadingState = 'idle';
+        state.error = null;
+      })
+      .addCase(fetchData.rejected, (state, action) => {
+        state.loadingState = 'failed';
+        state.loadingError = action.error.message;
       });
+      
   },
 });
 
 export const {
-  addChannel, addChannels, updateChannel,
-  removeChannel, setCurrentChannelId, setDefaultChannel,
+  addChannel, 
+  addChannels, 
+  updateChannel,
+  removeChannel, 
+  setCurrentChannelId, 
+  setDefaultChannel,
 } = channelsSlice.actions;
+
 export const selectors = channelsAdapter.getSelectors((state) => state.channelsReducer);
+
 export const getCurrentChannelId = (state) => state.channelsReducer.currentChannelId;
+
 export const getCurrentChannel = (state) => {
   const { currentChannelId } = state.channelsReducer;
   return state.channelsReducer.entities[currentChannelId];

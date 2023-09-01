@@ -2,13 +2,12 @@
 import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 
 import { removeChannel } from './channelsSlice';
-import { fetchData } from './loadingSlice.js';
-
+import fetchData from '../requests/fetchData.js';
 const messagesAdapter = createEntityAdapter();
 
 const initialState = messagesAdapter.getInitialState({
-  loadingMessages: 'idle',
-  error: null,
+  loadingError: null,
+  loadingState: 'idle'
 });
 
 const messagesSlice = createSlice({
@@ -27,8 +26,18 @@ const messagesSlice = createSlice({
           .map((message) => message.id);
         messagesAdapter.removeMany(state, messagesIds);
       })
+      .addCase(fetchData.pending, (state) => {
+        state.loadingState = 'loading';
+        state.loadingError = null;
+      })
       .addCase(fetchData.fulfilled, (state, action) => {
         messagesAdapter.addMany(state, action.payload.messages);
+        state.loadingState = 'idle';
+        state.loadingError = null;
+      })
+      .addCase(fetchData.rejected, (state, action) => {
+        state.loadingState = 'failed';
+        state.loadingError = action.error.message;
       });
   },
 });
