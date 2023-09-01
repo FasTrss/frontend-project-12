@@ -12,7 +12,7 @@ import { useChatWS } from '../../contexts/chatWSContext/ChatWSContext.jsx';
 import { getChannelsNames, getChannelById, updateChannel } from '../../slices/channelsSlice.js';
 import { getChannelId } from '../../slices/modalsSlice.js';
 
-const RenameChannel = ({ hide }) => {
+const RenameChannel = ({ show, hide }) => {
   const { t } = useTranslation();
   const { emitRenameChannel } = useChatWS();
   const inputRef = useRef(null);
@@ -38,19 +38,21 @@ const RenameChannel = ({ hide }) => {
           console.log(status);
           dispatch(updateChannel({ renamedChannelId, changes: { newName } }));
           toast.success(t('chat.modals.channelRenamed'));
+          hide();
         })
         .catch((error) => {
           console.log(error);
           toast.warning(t('chat.modals.connectionError'));
         });
-      hide();
     },
     validationSchema: getValidationSchema(),
   });
 
   useEffect(() => {
-    inputRef.current.select();
-  }, []);
+    if (show) {
+      inputRef.current.focus();
+    }
+  }, [show]);
 
   return (
     <>

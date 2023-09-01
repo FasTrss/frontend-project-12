@@ -22,12 +22,12 @@ const RemoveChannel = ({ hide }) => {
         dispatch(removeChannel(removedChannelId));
         dispatch(setDefaultChannel());
         toast.success(t('chat.modals.channelRemoved'));
+        hide();
       })
       .catch((error) => {
         console.log(error);
         toast.warning(t('chat.modals.connectionError'));
       });
-    hide();
   };
 
   return (
