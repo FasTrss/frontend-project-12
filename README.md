@@ -4,7 +4,7 @@
 
 _____
 
-## [Hexlet-chat](https://frontend-project-12-production-934d.up.railway.app/login)
+## [Hexlet-chat](https://https://hexlet-chat-production-aefd.up.railway.app/login)
 
 hexlet-chat is a simplified version of Slack Chat
 
