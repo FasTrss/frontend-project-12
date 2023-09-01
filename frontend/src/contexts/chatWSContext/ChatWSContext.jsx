@@ -5,7 +5,8 @@ export const ChatWSContext = createContext();
 const ChatWSProvider = ({ webSocket, children }) => {
   const emitSendMessage = useCallback((message) => new Promise((resolve, reject) => {
     webSocket.timeout(1000).emit('newMessage', message, (error, response) => {
-      if (response?.status === 'ok') { resolve(response); 
+      if (response?.status === 'ok') {
+        resolve(response);
       } else {
         reject(error);
       }
@@ -27,7 +28,7 @@ const ChatWSProvider = ({ webSocket, children }) => {
       if (response?.status === 'ok') {
         resolve(response);
       } else {
-      reject(error);
+        reject(error);
       }
     });
   }), [webSocket]);
