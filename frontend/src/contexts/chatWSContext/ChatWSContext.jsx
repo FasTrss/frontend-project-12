@@ -5,12 +5,10 @@ export const ChatWSContext = createContext();
 const ChatWSProvider = ({ webSocket, children }) => {
   const emitSendMessage = useCallback((message) => new Promise((resolve, reject) => {
     webSocket.timeout(1000).emit('newMessage', message, (error, response) => {
-      if (response?.status === 'ok') {
-        resolve(response);
-      }
-      else {
+      if (response?.status === 'ok') { resolve(response); 
+      } else {
         reject(error);
-        }
+      }
     });
   }), [webSocket]);
 
@@ -18,10 +16,9 @@ const ChatWSProvider = ({ webSocket, children }) => {
     webSocket.timeout(1000).emit('newChannel', channel, (error, response) => {
       if (response?.status === 'ok') {
         resolve(response);
-      }
-      else {
+      } else {
         reject(error);
-        }
+      }
     });
   }), [webSocket]);
 
@@ -39,10 +36,9 @@ const ChatWSProvider = ({ webSocket, children }) => {
     webSocket.timeout(1000).emit('renameChannel', { name, id }, (error, response) => {
       if (response?.status === 'ok') {
         resolve(response);
-      }
-      else {
+      } else {
         reject(error);
-        }
+      }
     });
   }), [webSocket]);
 
