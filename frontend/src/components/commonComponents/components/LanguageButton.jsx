@@ -5,10 +5,7 @@ import { Dropdown, ButtonGroup } from 'react-bootstrap';
 const LanguageButton = () => {
   const { t, i18n } = useTranslation();
 
-  const changeLanguage = (e) => {
-    const language = e.target.id;
-    i18n.changeLanguage(language);
-  };
+  const changeLanguage = (language) => i18n.changeLanguage(language);
 
   return (
     <Dropdown as={ButtonGroup}>
@@ -19,16 +16,10 @@ const LanguageButton = () => {
         {t('language.currentLanguage')}
       </Dropdown.Toggle>
       <Dropdown.Menu>
-        <Dropdown.Item
-          onClick={changeLanguage}
-          id="ru"
-        >
+        <Dropdown.Item onClick={() => changeLanguage('ru')}>
           {t('language.russian')}
         </Dropdown.Item>
-        <Dropdown.Item
-          onClick={changeLanguage}
-          id="en"
-        >
+        <Dropdown.Item onClick={() => changeLanguage('en')}>
           {t('language.english')}
         </Dropdown.Item>
       </Dropdown.Menu>

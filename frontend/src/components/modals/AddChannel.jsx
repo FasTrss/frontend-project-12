@@ -9,9 +9,17 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
 import { useChatWS } from '../../contexts/chatWSContext/ChatWSContext.jsx';
-import { getChannelsNames, setCurrentChannelId, addChannel } from '../../slices/channelsSlice.js';
+import { getChannelsNames, setCurrentChannelId } from '../../slices/channelsSlice.js';
 
-const AddChannel = ({ show, hide }) => {
+const getValidationSchema = (channels) => Yup.object().shape({
+  newChannelsName: Yup.string()
+    .required('chat.modals.requiredField')
+    .min(3, 'chat.modals.nameLength')
+    .max(20, 'chat.modals.nameLength')
+    .notOneOf(channels, 'chat.modals.nameExists'),
+});
+
+const AddChannel = ({ isModalVisible, hide }) => {
   const inputRef = useRef(null);
   const { t } = useTranslation();
   const dispatch = useDispatch();
@@ -19,40 +27,32 @@ const AddChannel = ({ show, hide }) => {
   const { emitAddChannel } = useChatWS();
   const channels = useSelector(getChannelsNames);
 
-  const getValidationSchema = () => Yup.object().shape({
-    newChannelsName: Yup.string()
-      .required('chat.modals.requiredField')
-      .min(3, 'chat.modals.nameLength')
-      .max(20, 'chat.modals.nameLength')
-      .notOneOf(channels, 'chat.modals.nameExists'),
-  });
-
-  const formik = useFormik({
-    initialValues: { newChannelsName: '' },
-    onSubmit: ({ newChannelsName }) => {
+  const handleSubmit = async ({ newChannelsName }) => {
+    try {
       const newChannel = {
         name: newChannelsName,
       };
-      emitAddChannel(newChannel)
-        .then((channel) => {
-          dispatch(addChannel(channel));
-          dispatch(setCurrentChannelId(channel.id));
-          toast.success(t('chat.modals.channelCreated'));
-          hide();
-        })
-        .catch((error) => {
-          console.log(error);
-          toast.warning(t('chat.modals.connectionError'));
-        });
-    },
+      const channel = await emitAddChannel(newChannel);
+      dispatch(setCurrentChannelId(channel.data.id));
+      toast.success(t('chat.modals.channelCreated'));
+      hide();
+    } catch (error) {
+      console.error(error);
+      toast.warning(t('chat.modals.connectionError'));
+    }
+  };
+
+  const formik = useFormik({
+    initialValues: { newChannelsName: '' },
+    onSubmit: handleSubmit,
     validationSchema: getValidationSchema(channels),
   });
 
   useEffect(() => {
-    if (show) {
+    if (isModalVisible) {
       inputRef.current.focus();
     }
-  }, [show]);
+  }, [isModalVisible]);
 
   return (
     <>

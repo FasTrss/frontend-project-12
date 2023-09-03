@@ -55,6 +55,9 @@ export const {
 
 export const selectors = channelsAdapter.getSelectors((state) => state.channelsReducer);
 
+export const getLoadingState = (state) => state.loadingState;
+export const getLoadingError = (state) => state.loadingError;
+
 export const getCurrentChannelId = (state) => state.channelsReducer.currentChannelId;
 
 export const getCurrentChannel = (state) => {

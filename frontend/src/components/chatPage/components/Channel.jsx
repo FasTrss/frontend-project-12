@@ -13,9 +13,7 @@ const Channel = ({
     ? 'text-start text-truncate rounded-0 w-100'
     : 'text-start text-truncate rounded-0 w-100 btn-secondary');
 
-  const getVariant = (id) => (id === currentChannelId
-    ? 'secondary'
-    : 'light');
+  const getVariant = (id) => (id === currentChannelId ? 'secondary' : 'light');
 
   return (
     <li className="nav-item w-100">

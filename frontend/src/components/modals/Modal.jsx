@@ -16,7 +16,7 @@ const modals = {
 const Modal = () => {
   const dispatch = useDispatch();
 
-  const shown = useSelector(getShown);
+  const isModalVisible = useSelector(getShown);
   const modalType = useSelector(getModalType);
 
   const hide = () => {
@@ -26,8 +26,8 @@ const Modal = () => {
   const Component = modals[modalType];
 
   return (
-    <BootstrapModal show={shown} onHide={hide}>
-      {Component && <Component show={shown} hide={hide} />}
+    <BootstrapModal show={isModalVisible} onHide={hide}>
+      {Component && <Component show={isModalVisible} hide={hide} />}
     </BootstrapModal>
   );
 };

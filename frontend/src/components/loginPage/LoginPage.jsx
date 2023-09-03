@@ -14,6 +14,13 @@ import image from '../../assets/login.jpg';
 import routes from '../../routes.js';
 import { useAuth } from '../../contexts/authContext/AuthContext.jsx';
 
+const loginSchema = Yup.object().shape({
+  username: Yup.string()
+    .required('login.requiredField'),
+  password: Yup.string()
+    .required('login.requiredField'),
+});
+
 const LoginPage = () => {
   const { t } = useTranslation();
   const ref = useRef(null);
@@ -30,12 +37,22 @@ const LoginPage = () => {
     ref.current.focus();
   }, []);
 
-  const loginSchema = Yup.object().shape({
-    username: Yup.string()
-      .required('login.requiredField'),
-    password: Yup.string()
-      .required('login.requiredField'),
-  });
+  const handleSubmit = async ({ username, password }, actions) => {
+    setauthFailed(false);
+    try {
+      const response = await axios.post(routes.loginPath(), {
+        username,
+        password,
+      });
+      logIn(response.data);
+      navigate(routes.chatRoute());
+    } catch (error) {
+      actions.setSubmitting(false);
+      if (axios.isAxiosError(error) && error.response?.status === 401) {
+        setauthFailed(true);
+      }
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -44,24 +61,9 @@ const LoginPage = () => {
     },
     validationSchema: loginSchema,
     validateOnBlur: false,
-    onSubmit: ({ username, password }, actions) => {
-      setauthFailed(false);
-      axios.post(routes.loginPath(), {
-        username,
-        password,
-      })
-        .then((response) => {
-          logIn(response.data);
-          navigate(routes.chatRoute());
-        })
-        .catch((error) => {
-          actions.setSubmitting(false);
-          if (error.isAxiosError && error.response.status === 401) {
-            setauthFailed(true);
-          }
-        });
-    },
+    onSubmit: handleSubmit,
   });
+
   return (
     <Container fluid className="h-100">
       <Row className="justify-content-center align-content-center h-100">
@@ -89,11 +91,9 @@ const LoginPage = () => {
                       (formik.touched.username && formik.errors.username) || authFailed
                     }
                   />
-                  <Form.Text className="text-danger">
-                    {formik.errors.username && formik.touched.username
-                      ? t(formik.errors.username)
-                      : null}
-                  </Form.Text>
+                  {formik.errors.username && formik.touched.username && (
+                  <Form.Text className="text-danger">{t(formik.errors.username)}</Form.Text>
+                  )}
                 </Form.Group>
                 <Form.Group className="mb-4">
                   <Form.Label style={{ display: 'none' }} htmlFor="password">{t('login.password')}</Form.Label>
@@ -119,15 +119,11 @@ const LoginPage = () => {
                       {showPassword ? <EyeSlash /> : <Eye />}
                     </Button>
                   </InputGroup>
-                  <Form.Text className="text-danger">
-                    {formik.errors.password && formik.touched.password
-                      ? t(formik.errors.password)
-                      : null}
-                  </Form.Text>
+                  {formik.errors.password && formik.touched.password && (
+                    <Form.Text className="text-danger">{t(formik.errors.password)}</Form.Text>
+                  )}
                 </Form.Group>
-                <Form.Text className="text-danger">
-                  {authFailed ? t('login.wrongNameAndPassword') : null}
-                </Form.Text>
+                {authFailed && (<Form.Text className="text-danger">{t('login.wrongNameAndPassword')}</Form.Text>)}
                 <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('login.signin')}</Button>
               </Form>
             </Card.Body>

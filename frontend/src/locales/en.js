@@ -37,6 +37,7 @@ const en = {
       mainPage: 'main page',
     },
     header: {
+      name: 'Hexlet Chat',
       logout: 'Log out',
       login: 'Log in',
     },

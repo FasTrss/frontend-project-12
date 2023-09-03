@@ -36,6 +36,7 @@ const ru = {
       mainPage: 'на главную сраницу',
     },
     header: {
+      name: 'Чат Хекслет',
       logout: 'Выйти',
       login: 'Войти',
     },

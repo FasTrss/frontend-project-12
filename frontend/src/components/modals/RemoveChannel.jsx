@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 
 import { useChatWS } from '../../contexts/chatWSContext/ChatWSContext.jsx';
 import { getChannelId } from '../../slices/modalsSlice.js';
-import { setDefaultChannel, removeChannel } from '../../slices/channelsSlice.js';
+import { setDefaultChannel } from '../../slices/channelsSlice.js';
 
 const RemoveChannel = ({ hide }) => {
   const { t } = useTranslation();
@@ -15,19 +15,16 @@ const RemoveChannel = ({ hide }) => {
 
   const removedChannelId = useSelector(getChannelId);
 
-  const handleDelete = () => {
-    emitRemoveChannel(removedChannelId)
-      .then((status) => {
-        console.log(status);
-        dispatch(removeChannel(removedChannelId));
-        dispatch(setDefaultChannel());
-        toast.success(t('chat.modals.channelRemoved'));
-        hide();
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.warning(t('chat.modals.connectionError'));
-      });
+  const handleDelete = async () => {
+    try {
+      await emitRemoveChannel(removedChannelId);
+      dispatch(setDefaultChannel());
+      toast.success(t('chat.modals.channelRemoved'));
+      hide();
+    } catch (error) {
+      console.log(error);
+      toast.warning(t('chat.modals.connectionError'));
+    }
   };
 
   return (

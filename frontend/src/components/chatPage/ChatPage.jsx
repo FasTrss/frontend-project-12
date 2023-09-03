@@ -3,9 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Spinner } from 'react-bootstrap';
-
 import { useAuth } from '../../contexts/authContext/AuthContext.jsx';
-import fetchData, { getLoadingError, getLoadingState } from '../../requests/fetchData.js';
+import fetchData from '../../requests/fetchData.js';
+import { getLoadingState, getLoadingError } from '../../slices/channelsSlice.js';
 import Channels from './components/Channels.jsx';
 import Messages from './components/Messages.jsx';
 import Modal from '../modals/Modal.jsx';
