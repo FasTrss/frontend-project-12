@@ -17,7 +17,7 @@ const init = async () => {
   const i18n = i18next.createInstance();
   const options = {
     resources,
-    fallbackLng: 'ru',
+    fallbackLng: 'en',
   };
   await i18n
     .use(initReactI18next)
