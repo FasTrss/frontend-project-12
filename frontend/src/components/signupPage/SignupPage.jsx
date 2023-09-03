@@ -12,19 +12,6 @@ import image from '../../assets/signup.jpg';
 import routes from '../../routes.js';
 import { useAuth } from '../../contexts/authContext/AuthContext.jsx';
 
-const signupSchema = Yup.object().shape({
-  username: Yup.string()
-    .min(3, 'signup.usernameLength')
-    .max(20, 'signup.usernameLength')
-    .required('signup.requiredField'),
-  password: Yup.string()
-    .min(6, 'signup.passwordLength')
-    .required('signup.requiredField'),
-  passwordConfirm: Yup.string()
-    .required('signup.requiredField')
-    .oneOf([Yup.ref('password')], 'signup.passwordsMatch'),
-});
-
 const SignupPage = () => {
   const { t } = useTranslation();
   const ref = useRef(null);
@@ -36,22 +23,18 @@ const SignupPage = () => {
     ref.current.focus();
   }, []);
 
-  const handleSubmit = async ({ username, password }, actions) => {
-    try {
-      setSignupFailed(false);
-      const response = await axios.post(routes.signupPath(), {
-        username,
-        password,
-      });
-      logIn(response.data);
-      navigate(routes.chatRoute());
-    } catch (error) {
-      actions.setSubmitting(false);
-      if (axios.isAxiosError(error) && error.response?.status === 409) {
-        setSignupFailed(true);
-      }
-    }
-  };
+  const signupSchema = Yup.object().shape({
+    username: Yup.string()
+      .min(3, 'signup.usernameLength')
+      .max(20, 'signup.usernameLength')
+      .required('signup.requiredField'),
+    password: Yup.string()
+      .min(6, 'signup.passwordLength')
+      .required('signup.requiredField'),
+    passwordConfirm: Yup.string()
+      .required('signup.requiredField')
+      .oneOf([Yup.ref('password')], 'signup.passwordsMatch'),
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -61,7 +44,23 @@ const SignupPage = () => {
     },
     validationSchema: signupSchema,
     validateOnBlur: false,
-    onSubmit: handleSubmit,
+    onSubmit: ({ username, password }, actions) => {
+      setSignupFailed(false);
+      axios.post(routes.signupPath(), {
+        username,
+        password,
+      })
+        .then((response) => {
+          logIn(response.data);
+          navigate(routes.chatRoute());
+        })
+        .catch((error) => {
+          actions.setSubmitting(false);
+          if (error.isAxiosError && error.response.status === 409) {
+            setSignupFailed(true);
+          }
+        });
+    },
   });
 
   return (
@@ -90,9 +89,11 @@ const SignupPage = () => {
                       (formik.touched.username && formik.errors.username) || signupFailed
                     }
                   />
-                  {formik.errors.username && formik.touched.username && (
-                    <Form.Text className="text-danger">{t(formik.errors.username)}</Form.Text>
-                  )}
+                  <Form.Text className="text-danger">
+                    {formik.errors.username && formik.touched.username
+                      ? t(formik.errors.username)
+                      : null}
+                  </Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-4">
                   <Form.Label style={{ display: 'none' }} htmlFor="password">{t('signup.password')}</Form.Label>
@@ -108,9 +109,11 @@ const SignupPage = () => {
                       (formik.touched.password && formik.errors.password) || signupFailed
                     }
                   />
-                  {formik.errors.password && formik.touched.password && (
-                    <Form.Text className="text-danger">{t(formik.errors.password)}</Form.Text>
-                  )}
+                  <Form.Text className="text-danger">
+                    {formik.errors.password && formik.touched.password
+                      ? t(formik.errors.password)
+                      : null}
+                  </Form.Text>
                 </Form.Group>
                 <Form.Group className="mb-4">
                   <Form.Label style={{ display: 'none' }} htmlFor="passwordConfirm">{t('signup.passwordConfirm')}</Form.Label>
@@ -128,10 +131,14 @@ const SignupPage = () => {
                         || signupFailed
                     }
                   />
-                  {formik.errors.passwordConfirm && formik.touched.passwordConfirm && (
-                  <Form.Text className="text-danger">{t(formik.errors.passwordConfirm)}</Form.Text>
-                  )}
-                  {signupFailed && (<Form.Text className="text-danger">{t('signup.userExists')}</Form.Text>)}
+                  <Form.Text className="text-danger">
+                    {formik.errors.passwordConfirm && formik.touched.passwordConfirm
+                      ? t(formik.errors.passwordConfirm)
+                      : null}
+                  </Form.Text>
+                  <Form.Text className="text-danger">
+                    {signupFailed ? t('signup.userExists') : null}
+                  </Form.Text>
                 </Form.Group>
                 <Button type="submit" variant="outline-primary" className="w-100 mb-3">{t('signup.signup')}</Button>
               </Form>
