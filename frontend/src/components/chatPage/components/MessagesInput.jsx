@@ -14,20 +14,22 @@ const MessagesInput = ({ currentChannelId }) => {
   const { emitSendMessage } = useChatWS();
   const { userData } = useAuth();
 
+  const handleSubmit = async ({ message }, actions) => {
+    if (message) {
+      const filteredMessage = leoProfanity.clean(message);
+      const newMessage = {
+        body: filteredMessage,
+        channelId: currentChannelId,
+        username: userData.username,
+      };
+      await emitSendMessage(newMessage);
+      actions.resetForm();
+    }
+  };
+
   const formik = useFormik({
     initialValues: { message: '' },
-    onSubmit: async ({ message }, actions) => {
-      if (message) {
-        const filteredMessage = leoProfanity.clean(message);
-        const newMessage = {
-          body: filteredMessage,
-          channelId: currentChannelId,
-          username: userData.username,
-        };
-        await emitSendMessage(newMessage);
-        actions.resetForm();
-      }
-    },
+    onSubmit: handleSubmit,
   });
 
   useEffect(() => {
