@@ -37,8 +37,8 @@ const SignupPage = () => {
   }, []);
 
   const handleSubmit = async ({ username, password }, actions) => {
-    setSignupFailed(false);
     try {
+      setSignupFailed(false);
       const response = await axios.post(routes.signupPath(), {
         username,
         password,
