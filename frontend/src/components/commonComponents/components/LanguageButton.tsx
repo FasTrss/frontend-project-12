@@ -5,7 +5,7 @@ import { Dropdown, ButtonGroup } from 'react-bootstrap';
 const LanguageButton = () => {
   const { t, i18n } = useTranslation();
 
-  const changeLanguage = (language) => i18n.changeLanguage(language);
+  const changeLanguage = (language: string) => i18n.changeLanguage(language);
 
   return (
     <Dropdown as={ButtonGroup}>

@@ -11,7 +11,7 @@ const LoginButton = () => {
 
   return (
     pathname === routes.signupRoute() && (
-      <Button as={Link} to={routes.loginRoute()}>
+      <Button as={Link as any} to={routes.loginRoute()}>
         {t('header.login')}
       </Button>
     )
