@@ -4,9 +4,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { useChatWS } from '../../contexts/chatWSContext/ChatWSContext.jsx';
-import { getChannelId } from '../../slices/modalsSlice.js';
-import { setDefaultChannel } from '../../slices/channelsSlice.js';
+import { useChatWS } from '../../contexts/chatWSContext/ChatWSContext';
+import { getChannelId } from '../../slices/modalsSlice';
+import { setDefaultChannel } from '../../slices/channelsSlice';
 
 const RemoveChannel = ({ hide }) => {
   const { t } = useTranslation();

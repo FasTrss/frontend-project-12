@@ -3,8 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import { useAuth } from '../../../contexts/authContext/AuthContext.jsx';
-import routes from '../../../routes.js';
+import { useAuth } from '../../../contexts/authContext/AuthContext';
+import routes from '../../../routes';
 
 const LogOutButton = () => {
   const { logOut, userData } = useAuth();
@@ -12,9 +12,11 @@ const LogOutButton = () => {
 
   return (
     userData && (
-      <Button as={Link} to={routes.loginRoute()} onClick={logOut}>
-        {t('header.logout')}
-      </Button>
+      <Link to={routes.loginRoute()}>
+        <Button onClick={logOut}>
+          {t('header.logout')}
+        </Button>
+      </Link>
     )
   );
 };

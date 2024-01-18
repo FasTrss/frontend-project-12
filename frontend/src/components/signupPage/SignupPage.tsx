@@ -7,10 +7,8 @@ import {
   Container, Row, Col, Card, Image, Form, Button,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
-
-import image from '../../assets/signup.jpg';
-import routes from '../../routes.js';
-import { useAuth } from '../../contexts/authContext/AuthContext.jsx';
+import routes from '../../routes';
+import { useAuth } from '../../contexts/authContext/AuthContext';
 
 const signupSchema = Yup.object().shape({
   username: Yup.string()
@@ -24,6 +22,8 @@ const signupSchema = Yup.object().shape({
     .required('signup.requiredField')
     .oneOf([Yup.ref('password')], 'signup.passwordsMatch'),
 });
+
+const image = '../../assets/signup.jpg';
 
 const SignupPage = () => {
   const { t } = useTranslation();

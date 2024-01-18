@@ -8,11 +8,11 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { useChatWS } from '../../contexts/chatWSContext/ChatWSContext.jsx';
-import { getChannelsNames, getChannelById } from '../../slices/channelsSlice.js';
-import { getChannelId } from '../../slices/modalsSlice.js';
+import { useChatWS } from '../../contexts/chatWSContext/ChatWSContext';
+import { getChannelsNames, getChannelById } from '../../slices/channelsSlice';
+import { getChannelId } from '../../slices/modalsSlice';
 
-const getValidationSchema = (channelsNames) => Yup.object().shape({
+const getValidationSchema = (channelsNames: string[]) => Yup.object().shape({
   newName: Yup.string()
     .required('chat.modals.requiredField')
     .min(3, 'chat.modals.nameLength')
@@ -29,7 +29,7 @@ const RenameChannel = ({ isModalVisible, hide }) => {
   const renamedChannelId = useSelector(getChannelId);
   const renamedChannel = useSelector(getChannelById(renamedChannelId));
 
-  const handleSubmit = async ({ newName }) => {
+  const handleSubmit = async ({ newName }: {newName: string}) => {
     try {
       await emitRenameChannel(newName, renamedChannelId);
       toast.success(t('chat.modals.channelRenamed'));

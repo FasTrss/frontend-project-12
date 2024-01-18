@@ -8,10 +8,11 @@ import { Provider as RollbarProvider, ErrorBoundary as RollbarErrorBoundary } fr
 
 import resources from './locales/index';
 import App from './App';
-import store from './slices/index.js';
-import { ChatWSProvider } from './contexts/chatWSContext/ChatWSContext.jsx';
+import store from './slices/index';
+import { ChatWSProvider } from './contexts/chatWSContext/ChatWSContext';
 import { addMessage } from './slices/messagesSlice';
 import { addChannel, updateChannel, removeChannel } from './slices/channelsSlice';
+import { AuthProvider } from './contexts/authContext/AuthContext';
 
 const init = async () => {
   const i18n = i18next.createInstance();
@@ -58,7 +59,9 @@ const init = async () => {
           <Provider store={store}>
             <I18nextProvider i18n={i18n}>
               <ChatWSProvider webSocket={webSocket}>
-                <App />
+                <AuthProvider>
+                  <App />
+                </AuthProvider>
               </ChatWSProvider>
             </I18nextProvider>
           </Provider>

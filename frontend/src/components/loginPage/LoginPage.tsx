@@ -11,8 +11,13 @@ import { useTranslation } from 'react-i18next';
 import { Eye, EyeSlash } from 'react-bootstrap-icons';
 
 import image from '../../assets/login.jpg';
-import routes from '../../routes.js';
-import { useAuth } from '../../contexts/authContext/AuthContext.jsx';
+import routes from '../../routes';
+import { useAuth } from '../../contexts/authContext/AuthContext';
+
+interface LoginFormValues {
+  readonly username: string;
+  readonly password: string;
+}
 
 const loginSchema = Yup.object().shape({
   username: Yup.string()
@@ -21,9 +26,9 @@ const loginSchema = Yup.object().shape({
     .required('login.requiredField'),
 });
 
-const LoginPage = () => {
+const LoginPage : React.FC = () => {
   const { t } = useTranslation();
-  const ref = useRef(null);
+  const ref = useRef<HTMLInputElement | null>(null);
   const { logIn } = useAuth();
   const navigate = useNavigate();
   const [authFailed, setauthFailed] = useState(false);
@@ -34,10 +39,12 @@ const LoginPage = () => {
   };
 
   useEffect(() => {
-    ref.current.focus();
+    if (ref.current) {
+      ref.current.focus();
+    }
   }, []);
 
-  const handleSubmit = async ({ username, password }, actions) => {
+  const handleSubmit = async ({ username, password } : LoginFormValues, actions : any) => {
     setauthFailed(false);
     try {
       const response = await axios.post(routes.loginPath(), {

@@ -3,15 +3,15 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Container, Row, Spinner } from 'react-bootstrap';
-import { useAuth } from '../../contexts/authContext/AuthContext.jsx';
-import fetchData from '../../requests/fetchData.js';
-import { getLoadingState, getLoadingError } from '../../slices/channelsSlice.js';
-import Channels from './components/Channels.jsx';
-import Messages from './components/Messages.jsx';
-import Modal from '../modals/Modal.jsx';
-import Error from './components/Error.jsx';
-import { openModal } from '../../slices/modalsSlice.js';
-import routes from '../../routes.js';
+import { useAuth } from '../../contexts/authContext/AuthContext';
+import fetchData from '../../requests/fetchData';
+import { getLoadingState, getLoadingError } from '../../slices/channelsSlice';
+import Channels from './components/Channels';
+import Messages from './components/Messages';
+import Modal from '../modals/Modal';
+import Error from './components/Error';
+import { openModal } from '../../slices/modalsSlice';
+import routes from '../../routes';
 
 const Chat = () => {
   const navigate = useNavigate();
@@ -38,7 +38,7 @@ const Chat = () => {
     }
   }, [loadingError, logOut, navigate]);
 
-  const showModal = (type, id = null) => {
+  const showModal = (type: string, id: number | null = null) => {
     dispatch(openModal({ type, id }));
   };
 

@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 
-const MessagesHeader = ({ currentChannelName, numberOfMessages }) => {
+interface MessagesHeaderProps {
+  currentChannelName: string,
+  numberOfMessages: number,
+}
+
+const MessagesHeader: FC<MessagesHeaderProps> = ({ currentChannelName, numberOfMessages }) => {
   const { t } = useTranslation();
 
   return (

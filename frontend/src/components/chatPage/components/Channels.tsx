@@ -1,20 +1,25 @@
-import React from 'react';
+/* eslint-disable functional/no-return-void */
+import React, { FC } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Col, Button } from 'react-bootstrap';
 import { PlusSquare } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
 
-import { selectors, setCurrentChannelId, getCurrentChannelId } from '../../../slices/channelsSlice.js';
-import Channel from './Channel.jsx';
+import { selectors, setCurrentChannelId, getCurrentChannelId } from '../../../slices/channelsSlice';
+import Channel from './Channel';
 
-const Channels = ({ showModal }) => {
+interface ChannelsProps {
+  showModal: (action: 'add') => void;
+}
+
+const Channels: FC<ChannelsProps> = ({ showModal }) => {
   const dispatch = useDispatch();
   const { t } = useTranslation();
 
-  const channels = useSelector(selectors.selectAll);
+  const channels: object[] = useSelector(selectors.selectAll);
   const currentChannelId = useSelector(getCurrentChannelId);
 
-  const changeChannel = (id) => {
+  const changeChannel = (id: number) => {
     dispatch(setCurrentChannelId(id));
   };
 

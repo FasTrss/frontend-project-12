@@ -9,7 +9,7 @@ import LoginPage from './components/loginPage/LoginPage';
 import SignupPage from './components/signupPage/SignupPage';
 import Chat from './components/chatPage/ChatPage';
 import NotFoundPage from './components/notFoundPage/NotFoundPage';
-import { AuthProvider, useAuth } from './contexts/authContext/AuthContext.jsx';
+import { useAuth } from './contexts/authContext/AuthContext';
 import routes from './routes';
 
 const LoggedInRoute = () => {
@@ -27,26 +27,24 @@ const LoggedOutRoute = () => {
 };
 
 const App = () => (
-  <AuthProvider>
-    <BrowserRouter>
-      <div className="d-flex flex-column h-100">
-        <Header />
-        <Routes>
-          <Route path={routes.chatRoute()} element={<LoggedInRoute />}>
-            <Route path={routes.chatRoute()} element={<Chat />} />
-          </Route>
-          <Route path="*" element={<NotFoundPage />} />
-          <Route path={routes.loginRoute()} element={<LoggedOutRoute />}>
-            <Route path="" element={<LoginPage />} />
-          </Route>
-          <Route path={routes.signupRoute()} element={<LoggedOutRoute />}>
-            <Route path="" element={<SignupPage />} />
-          </Route>
-        </Routes>
-      </div>
-      <ToastContainer />
-    </BrowserRouter>
-  </AuthProvider>
+  <BrowserRouter>
+    <div className="d-flex flex-column h-100">
+      <Header />
+      <Routes>
+        <Route path={routes.chatRoute()} element={<LoggedInRoute />}>
+          <Route path={routes.chatRoute()} element={<Chat />} />
+        </Route>
+        <Route path="*" element={<NotFoundPage />} />
+        <Route path={routes.loginRoute()} element={<LoggedOutRoute />}>
+          <Route path="" element={<LoginPage />} />
+        </Route>
+        <Route path={routes.signupRoute()} element={<LoggedOutRoute />}>
+          <Route path="" element={<SignupPage />} />
+        </Route>
+      </Routes>
+    </div>
+    <ToastContainer />
+  </BrowserRouter>
 );
 
 export default App;

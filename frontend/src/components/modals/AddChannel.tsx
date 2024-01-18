@@ -8,10 +8,10 @@ import * as Yup from 'yup';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
 
-import { useChatWS } from '../../contexts/chatWSContext/ChatWSContext.jsx';
-import { getChannelsNames, setCurrentChannelId } from '../../slices/channelsSlice.js';
+import { useChatWS } from '../../contexts/chatWSContext/ChatWSContext';
+import { getChannelsNames, setCurrentChannelId } from '../../slices/channelsSlice';
 
-const getValidationSchema = (channels) => Yup.object().shape({
+const getValidationSchema = (channels: object[]) => Yup.object().shape({
   newChannelsName: Yup.string()
     .required('chat.modals.requiredField')
     .min(3, 'chat.modals.nameLength')

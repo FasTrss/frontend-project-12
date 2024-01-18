@@ -1,14 +1,18 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, FC } from 'react';
 import { useFormik } from 'formik';
 import { Form, Button, InputGroup } from 'react-bootstrap';
 import { ArrowRightSquare } from 'react-bootstrap-icons';
 import { useTranslation } from 'react-i18next';
 import leoProfanity from 'leo-profanity';
 
-import { useChatWS } from '../../../contexts/chatWSContext/ChatWSContext.jsx';
-import { useAuth } from '../../../contexts/authContext/AuthContext.jsx';
+import { useChatWS } from '../../../contexts/chatWSContext/ChatWSContext';
+import { useAuth } from '../../../contexts/authContext/AuthContext';
 
-const MessagesInput = ({ currentChannelId }) => {
+interface MessagesInputProps {
+  currentChannelId: number;
+}
+
+const MessagesInput: FC<MessagesInputProps> = ({ currentChannelId }) => {
   const inputRef = useRef(null);
   const { t } = useTranslation();
   const { emitSendMessage } = useChatWS();

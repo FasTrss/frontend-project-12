@@ -2,12 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { Col } from 'react-bootstrap';
 
-import { getCurrentMessages } from '../../../slices/messagesSlice.js';
-import { getCurrentChannelId, getCurrentChannel } from '../../../slices/channelsSlice.js';
+import { getCurrentMessages } from '../../../slices/messagesSlice';
+import { getCurrentChannelId, getCurrentChannel } from '../../../slices/channelsSlice';
 
-import MessagesHeader from './MessagesHeader.jsx';
-import MessagesBox from './MessagesBox.jsx';
-import MessagesInput from './MessagesInput.jsx';
+import MessagesHeader from './MessagesHeader';
+import MessagesBox from './MessagesBox';
+import MessagesInput from './MessagesInput';
 
 const Messages = () => {
   const currentChannelId = useSelector(getCurrentChannelId);

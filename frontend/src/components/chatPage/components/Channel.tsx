@@ -1,19 +1,31 @@
+/* eslint-disable functional/no-return-void */
 import React from 'react';
 import {
   Button, Dropdown, ButtonGroup,
 } from 'react-bootstrap';
 import { useTranslation } from 'react-i18next';
 
-const Channel = ({
+interface ChannelProps {
+  channel: {
+    id: number;
+    name: string;
+    removable: boolean;
+  };
+  changeChannel: (id: number) => void;
+  showModal: (action: 'remove' | 'rename', id: number) => void;
+  currentChannelId: number;
+}
+
+const Channel: React.FC<ChannelProps> = ({
   channel, changeChannel, showModal, currentChannelId,
 }) => {
   const { t } = useTranslation();
 
-  const getClassNames = (id) => (id === currentChannelId
+  const getClassNames = (id: number) => (id === currentChannelId
     ? 'text-start text-truncate rounded-0 w-100'
     : 'text-start text-truncate rounded-0 w-100 btn-secondary');
 
-  const getVariant = (id) => (id === currentChannelId ? 'secondary' : 'light');
+  const getVariant = (id: number) => (id === currentChannelId ? 'secondary' : 'light');
 
   return (
     <li className="nav-item w-100">

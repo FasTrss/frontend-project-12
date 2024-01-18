@@ -2,7 +2,7 @@
 import { createSlice, createEntityAdapter, createSelector } from '@reduxjs/toolkit';
 
 import { removeChannel } from './channelsSlice';
-import fetchData from '../requests/fetchData.js';
+import fetchData from '../requests/fetchData';
 
 const messagesAdapter = createEntityAdapter();
 
@@ -45,7 +45,7 @@ const messagesSlice = createSlice({
 
 export const { addMessage, addMessages } = messagesSlice.actions;
 
-export const getCurrentMessages = (id) => createSelector(
+export const getCurrentMessages = (id: number) => createSelector(
   [(state) => state.messagesReducer.entities],
   (entities) => Object.values(entities).filter((message) => message.channelId === id),
 );
